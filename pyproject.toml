@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "smog-data-pipeline"
+version = "0.1.0"
+description = ""
+authors = ["Kacper Wojtasinski <k0wojtasinski@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+polars = "^0.19.7"
+requests = "^2.31.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.2"
+ruff = "^0.0.292"
+commitizen = "^3.10.0"
+black = "^23.9.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ssv"
+testpaths = [
+    "tests",
+]
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "$version"
+version_scheme = "pep440"
+version_provider = "poetry"
+update_changelog_on_bump = true
+major_version_zero = true
