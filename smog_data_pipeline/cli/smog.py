@@ -1,6 +1,6 @@
 import argparse
 
-from smog_data_pipeline.pipelines import SmogPipeline
+from smog_data_pipeline.pipelines.smog import SmogPipeline
 
 
 def prepare_parser():
@@ -25,3 +25,10 @@ def prepare_parser():
 def run_pipeline(path: str, cache: str) -> None:
     pipeline = SmogPipeline(result_file_path=path, cache_path=cache)
     pipeline.run()
+
+
+def start_from_cli():
+    parser = prepare_parser()
+    args = parser.parse_args()
+
+    run_pipeline(path=args.path[0], cache=args.cache)

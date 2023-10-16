@@ -10,6 +10,8 @@ python = "^3.10"
 polars = "^0.19.7"
 requests = "^2.31.0"
 
+[tool.poetry.scripts]
+smog_data_pipeline = "smog_data_pipeline.cli.smog:start_from_cli"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.2"

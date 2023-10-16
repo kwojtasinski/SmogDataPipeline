@@ -51,6 +51,7 @@ class HttpExtractor(Extractor):
                 self.data = path.read_bytes()
             else:
                 self.data = self._make_request().content
+                logger.info("Writing data to cache: %s", self.cache_path)
                 path.write_bytes(self.data)
         else:
             self.data = self._make_request().content
