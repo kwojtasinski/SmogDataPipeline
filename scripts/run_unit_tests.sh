@@ -7,4 +7,4 @@ else
     POETRY="/opt/poetry/bin/poetry"
 fi
 echo "Running pytest"
-$POETRY run pytest
+$POETRY run pytest --record-mode=once

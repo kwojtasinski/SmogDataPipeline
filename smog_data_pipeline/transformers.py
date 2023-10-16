@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 import polars as pl
 
@@ -10,6 +11,9 @@ class Transformer(ABC):
 
     def __call__(self, dataframe: pl.DataFrame) -> pl.DataFrame:
         return self.transform(dataframe=dataframe)
+
+    def get_attributes(self) -> dict[str, Any]:
+        return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
 
 
 class ExplodeTransformer(Transformer):
@@ -42,6 +46,16 @@ class CastTransformer(Transformer):
         self.dtype = dtype
 
     def transform(self, dataframe: pl.DataFrame) -> pl.DataFrame:
-        return dataframe.with_column(
-            self.column, dataframe[self.column].cast(self.dtype)
+        return dataframe.with_columns(
+            dataframe[self.column].cast(self.dtype).alias(self.column)
+        )
+
+
+class StripStringTransformer(Transformer):
+    def __init__(self, column: str) -> None:
+        self.column = column
+
+    def transform(self, dataframe: pl.DataFrame) -> pl.DataFrame:
+        return dataframe.with_columns(
+            dataframe[self.column].str.strip_chars().alias(self.column)
         )
