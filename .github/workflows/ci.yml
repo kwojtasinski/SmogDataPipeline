@@ -15,7 +15,7 @@ jobs:
         bash scripts/build.sh ci
     - name: Run linters
       run: |
-        docker run smog_data_pipeline:ci-development /app/scripts/run_linters.sh
+        docker run smog_data_pipeline:ci-development bash /app/scripts/run_linters.sh
     - name: Run unit tests
       run: |
-        docker run smog_data_pipeline:ci-development /app/scripts/run_unit_tests.sh
+        docker run smog_data_pipeline:ci-development bash /app/scripts/run_unit_tests.sh
