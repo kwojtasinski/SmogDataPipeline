@@ -18,3 +18,5 @@ jobs:
         - name: Release the dataset
           run: |
             gh release create $(date +%F) --title "SmogDataPipeline Dataset release ($(date +%F))" --notes "SmogDataPipeline Dataset release ($(date +%F))" results.csv
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
