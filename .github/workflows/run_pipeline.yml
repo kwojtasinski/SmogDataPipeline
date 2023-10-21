@@ -1,22 +1,23 @@
 name: RunPipeline
 on:
-    schedule:
-        - cron: "0 23 * * *"
+  schedule:
+    - cron: "0 23 * * *"
 jobs:
     run:
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v2
-        - name: Build docker image
-          run: |
-            bash scripts/build.sh prod
-        - name: Run the pipeline
-          run: |
-            docker run --name smog_data_pipeline smog_data_pipeline:prod-development poetry run smog_data_pipeline -p results.csv
-            docker cp smog_data_pipeline:/app/results.csv results.csv
-            docker rm -f smog_data_pipeline
-        - name: Release the dataset
-          run: |
-            gh release create $(date +%F) --title "SmogDataPipeline Dataset release ($(date +%F))" --notes "SmogDataPipeline Dataset release ($(date +%F))" results.csv
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      permissions: write-all
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+      - name: Build docker image
+        run: |
+          bash scripts/build.sh prod
+      - name: Run the pipeline
+        run: |
+          docker run --name smog_data_pipeline smog_data_pipeline:prod-development poetry run smog_data_pipeline -p results.csv
+          docker cp smog_data_pipeline:/app/results.csv results.csv
+          docker rm -f smog_data_pipeline
+      - name: Release the dataset
+        run: |
+          gh release create $(date +%F) --title "SmogDataPipeline Dataset release ($(date +%F))" --notes "SmogDataPipeline Dataset release ($(date +%F))" results.csv
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
